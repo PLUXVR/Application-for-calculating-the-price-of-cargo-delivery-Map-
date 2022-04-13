@@ -5,6 +5,9 @@
 //  Created by Максим Беседин on 13.03.2022.
 //
 
+// Москва
+// Ставрополь
+
 import UIKit
 
 class ResultViewController: UIViewController {
