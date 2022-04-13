@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "reset-button-computer-icons-clip-art-restart-07678874212fdf908c60261ffac6cc36.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
