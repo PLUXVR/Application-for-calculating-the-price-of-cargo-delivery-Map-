@@ -59,10 +59,59 @@ class MapViewController: UIViewController {
     
     var annotationsArray = [MKPointAnnotation]()
     
+    let locationManager = CLLocationManager()
+    
+    func checkAuthorizationStatus() {
+      switch CLLocationManager.authorizationStatus() {
+        case .authorizedWhenInUse: break
+        case .denied: break
+        case .notDetermined: break
+        case .restricted: break
+        case .authorizedAlways: break
+      }
+    }
+    
+    
+    func checkLocationServices() {
+      if CLLocationManager.locationServicesEnabled() {
+        checkLocationAuthorization()
+      } else {
+        
+      }
+    }
+    func checkLocationAuthorization() {
+      switch CLLocationManager.authorizationStatus() {
+      case .authorizedWhenInUse:
+        mapView.showsUserLocation = true
+       case .denied: // Show alert telling users how to turn on permissions
+       break
+      case .notDetermined:
+        locationManager.requestWhenInUseAuthorization()
+        mapView.showsUserLocation = true
+      case .restricted: // Show an alert letting them know what’s up
+       break
+      case .authorizedAlways:
+       break
+      }
+    }
+    func checkLocationPermission(){
+      
+        if CLLocationManager.locationServicesEnabled() {
+           // continue to implement here
+        } else {
+           // Do something to let users know why they need to turn it on.
+        }
+    }
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         mapView.delegate = self
+        
+        checkLocationServices()
         
         setConstraints()
 
@@ -84,14 +133,8 @@ class MapViewController: UIViewController {
     }
     
     @objc func routeButtonTaped(){
-        
-        
-        for index in 0...annotationsArray.count - 1 {
-            createDirectionRequest(startCoordinate: annotationsArray[index].coordinate, destinationCoordinate: annotationsArray[index].coordinate)
-        }
-        
+        createDirectionRequest(startCoordinate: annotationsArray.first?.coordinate, destinationCoordinate: annotationsArray.last?.coordinate)
         mapView.showAnnotations(annotationsArray, animated: true)
-        
     }
     
     @objc func resetButtonTaped(){
@@ -139,14 +182,24 @@ class MapViewController: UIViewController {
         
         }
     
-    private func createDirectionRequest(startCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D){
-        let startLocation = MKPlacemark(coordinate: startCoordinate)
-        let destinationLocation = MKPlacemark(coordinate: destinationCoordinate)
+    private func createDirectionRequest(startCoordinate: CLLocationCoordinate2D?, destinationCoordinate: CLLocationCoordinate2D?){
+        
+        if(startCoordinate != nil && destinationCoordinate != nil) {
+        let startLocation = MKPlacemark(coordinate: startCoordinate!)
+        let destinationLocation = MKPlacemark(coordinate: destinationCoordinate!)
+        
+        //distance formula
+        let firstLocation = CLLocation(latitude: startCoordinate!.latitude, longitude: startCoordinate!.longitude)
+        let secondLocation = CLLocation(latitude: destinationCoordinate!.latitude, longitude: destinationCoordinate!.longitude)
+        let distanceMeters = firstLocation.distance(from: secondLocation)
+        print(distanceMeters)
+        //
+        
         
         let request = MKDirections.Request()
         request.source = MKMapItem(placemark: startLocation)
         request.destination = MKMapItem(placemark: destinationLocation)
-        request.transportType =  .walking
+        request.transportType =  .any
         request.requestsAlternateRoutes = true
         
         
@@ -166,9 +219,15 @@ class MapViewController: UIViewController {
                 }
             self.routeDistance = minRoute.distance
             self.mapView.addOverlay(minRoute.polyline)
-            
+
             }
         }
+        else{
+        
+          
+        }
+    }
+    
     }
 
 extension MapViewController : MKMapViewDelegate{
