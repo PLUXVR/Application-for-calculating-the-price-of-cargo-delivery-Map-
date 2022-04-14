@@ -224,7 +224,7 @@ class MapViewController: UIViewController {
         }
         else{
         
-            print("Пошёл нахуй")
+          
         }
     }
     
