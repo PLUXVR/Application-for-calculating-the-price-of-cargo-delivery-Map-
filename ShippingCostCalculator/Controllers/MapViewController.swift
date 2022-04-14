@@ -188,20 +188,11 @@ class MapViewController: UIViewController {
         let startLocation = MKPlacemark(coordinate: startCoordinate!)
         let destinationLocation = MKPlacemark(coordinate: destinationCoordinate!)
         
-        //distance formula
-        let firstLocation = CLLocation(latitude: startCoordinate!.latitude, longitude: startCoordinate!.longitude)
-        let secondLocation = CLLocation(latitude: destinationCoordinate!.latitude, longitude: destinationCoordinate!.longitude)
-        let distanceMeters = firstLocation.distance(from: secondLocation)
-        print(distanceMeters)
-        //
-        
-        
         let request = MKDirections.Request()
         request.source = MKMapItem(placemark: startLocation)
         request.destination = MKMapItem(placemark: destinationLocation)
         request.transportType =  .any
         request.requestsAlternateRoutes = true
-        
         
         let direction = MKDirections(request: request)
         direction.calculate { responce, error in
@@ -219,7 +210,6 @@ class MapViewController: UIViewController {
                 }
             self.routeDistance = minRoute.distance
             self.mapView.addOverlay(minRoute.polyline)
-
             }
         }
         else{
