@@ -152,8 +152,16 @@ class MapViewController: UIViewController {
     @objc func stepNexButtonTaped(sender: UIButton){
         let calculateController = storyboard?.instantiateViewController(withIdentifier: "CalculatingViewController")
         let newControler = calculateController as! CalculatingViewController
-        newControler.distance = 100
-        self.navigationController?.pushViewController(calculateController!, animated: true)
+        if self.routeDistance != nil {
+            newControler.distance = self.routeDistance
+            self.navigationController?.pushViewController(calculateController!, animated: true)
+        }
+        else
+        {
+            alertError(title: "Ошибка", message: "Попробуйте еще раз")
+        }
+        
+       
     }
     
     private func setupPlacemark(adressPlace: String){

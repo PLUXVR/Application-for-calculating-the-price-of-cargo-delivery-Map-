@@ -11,7 +11,7 @@ class CalculatingViewController: UIViewController {
     
     //Здесь будет храниться результат расчета суммы заказа для отображения в финальном Label
     var cdekValue = "0.0"
-    var distance : Int = 0
+    var distance : Double?
     // дефолтная цена за параметр объекта
     var defaultParamPrice: Int = 200
     
